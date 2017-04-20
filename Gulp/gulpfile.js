@@ -80,15 +80,15 @@ gulp.task('image', function () {
         .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('build', [
-    'html',
-    'js',
-    'css',
-    'fonts',
-    'image'
-]);
+// gulp.task('build', [
+//     'html',
+//     'js',
+//     'css',
+//     'fonts',
+//     'image'
+// ]);
 
-gulp.task('build', ['clean', 'image', 'css', 'js'], function() {
+gulp.task('build', ['clean', 'image', 'css', 'js', 'fonts', 'html'], function() {
 
     var buildCss = gulp.src('app/css/*.css')
                    .pipe(gulp.dest('dist/css'))
@@ -99,8 +99,8 @@ gulp.task('build', ['clean', 'image', 'css', 'js'], function() {
     var buildJs = gulp.src('app/js/**/*')
                   .pipe(gulp.dest('dist/js'))
 
-    var buildImg = gulp.src('app/js/**/*')
-                  .pipe(gulp.dest('dist/js'));
+    var buildImg = gulp.src('app/img/**/*')
+                  .pipe(gulp.dest('dist/img'));
 
     var buildHtml = gulp.src('app/*.html')
     			   .pipe(gulp.dest('dist'));
