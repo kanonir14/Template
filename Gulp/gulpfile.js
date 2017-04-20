@@ -13,27 +13,15 @@ var gulp = require('gulp'),
     };
 
  var path = {
-    // build: { //Тут мы укажем куда складывать готовые после сборки файлы
-    //     html: 'build/',
-    //     js: 'build/js/',
-    //     css: 'build/css/',
-    //     img: 'build/img/',
-    //     fonts: 'build/fonts/'
-    // },
-    src: { //Пути откуда брать исходники
-        html: 'app/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
-        js: 'app/js/common.js',//В стилях и скриптах нам понадобятся только main файлы
+
+    src: { 
+        html: 'app/*.html', 
+        js: 'app/js/common.js',
         css: 'app/css/scss/style.scss',
-        img: 'app/img/**/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
+        img: 'app/img/**/*.*', 
         fonts: 'app/fonts/**/*.*'
     },
-    // watch: { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
-    //     html: 'app/**/*.html',
-    //     js: 'app/js/**/*.js',
-    //     style: 'app/style/**/*.scss',
-    //     img: 'app/img/**/*.*',
-    //     fonts: 'app/fonts/**/*.*'
-    // },
+
     clean: './dist'
 };
 
@@ -102,19 +90,20 @@ gulp.task('build', [
 
 gulp.task('build', ['clean', 'image', 'css', 'js'], function() {
 
-    var buildCss = gulp.src([ // Переносим библиотеки в продакшен
-        'app/css/style.css'
-        ])
-    .pipe(gulp.dest('dist/css'))
+    var buildCss = gulp.src('app/css/*.css')
+                   .pipe(gulp.dest('dist/css'))
 
-    var buildFonts = gulp.src('app/fonts/**/*') // Переносим шрифты в продакшен
-    .pipe(gulp.dest('dist/fonts'))
+    var buildFonts = gulp.src('app/fonts/**/*')
+                    .pipe(gulp.dest('dist/fonts'))
 
-    var buildJs = gulp.src('app/js/**/*') // Переносим скрипты в продакшен
-    .pipe(gulp.dest('dist/js'))
+    var buildJs = gulp.src('app/js/**/*')
+                  .pipe(gulp.dest('dist/js'))
 
-    var buildHtml = gulp.src('app/*.html') // Переносим HTML в продакшен
-    .pipe(gulp.dest('dist'));
+    var buildImg = gulp.src('app/js/**/*')
+                  .pipe(gulp.dest('dist/js'));
+
+    var buildHtml = gulp.src('app/*.html')
+    			   .pipe(gulp.dest('dist'));
 
 });
 
