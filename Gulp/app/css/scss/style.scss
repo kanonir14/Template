@@ -1,38 +1,12 @@
-// SETTINGS
-
-@import "settings/variables.scss";
-@import "settings/box-sizing.scss";
-
-// TOOLS
-
-@import "tools/mixins.scss";
-
-// GENERIC
-
-@import "generic/reset.scss";
-@import "generic/fonts.scss";
+@import "_var.scss";
+@import "_mixins.scss";
+@import "normalize.scss";
+@import "fonts.scss";
+@import "components.scss";
 
 
-// BASE
 
-@import "base/headings.scss";
-@import "base/links.scss";
 
-// COMPONENTS
+//      MEDIA
 
-@import "components/inputs.scss";
-@import "components/buttons.scss";
-@import "components/sprites.scss";
-
-// OBJECTS
-
-@import "objects/container.scss";
-@import "objects/header.scss";
-@import "objects/header-nav.scss";
-@import "objects/sidebar.scss";
-@import "objects/section.scss";
-@import "objects/content.scss";
-@import "objects/pagination.scss";
-@import "objects/footer.scss";
-
-// TRUMPS
+@import "media.scss";

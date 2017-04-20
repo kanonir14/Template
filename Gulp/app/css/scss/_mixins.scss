@@ -1,0 +1,30 @@
+@mixin display($flex) {
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: $flex;
+}
+
+@mixin flex-direction($var) {
+	-webkit-flex-direction: $var;
+	-ms-flex-direction: $var;
+    flex-direction: $var;
+}
+
+@mixin justify-content($var) {
+	-webkit-justify-content: $var;
+	-ms-justify-content: $var;
+	    justify-content: $var;
+}
+
+@mixin align-items($var){
+	-webkit-align-items: $var;
+	-ms-align-items: $var;
+	align-items: $var;
+}
+@mixin flex-wrap($var){
+	-webkit-flex-wrap: $var;
+	-ms-flex-wrap: $var;
+	flex-wrap: $var;
+}
