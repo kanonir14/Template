@@ -6,6 +6,8 @@ var gulp = require('gulp'),
     cssmin = require('gulp-minify-css'),
     browserSync = require('browser-sync'),
     rimraf = require('rimraf'),
+    autoprefixer = require('gulp-autoprefixer'),
+    sftp = require('gulp-sftp'),
     uglify = require('gulp-uglify'),
     sassOptions = {
         errLogConsole: false,
@@ -25,11 +27,22 @@ var gulp = require('gulp'),
     clean: './dist'
 };
 
+ // sftp
+//  gulp.task('sftp', function () {
+//     return gulp.src('app/**/*')
+//     .pipe(sftp({
+//         host: 'host',
+//         user: 'user',
+//         pass: 'password',
+//         remotePath: '/home/kulonshopcom/www/kulonshop.com/test/makeup/2017/september/levis'
+//     }));
+// });
+
 // Скрипты проекта
 
 gulp.task('js', function() {
 	gulp.src(path.src.js)
-	.pipe(uglify())
+	// .pipe(uglify())
 	.pipe(gulp.dest('app/js'))
 	.pipe(browserSync.reload({stream: true}));
 });
@@ -48,7 +61,11 @@ gulp.task('browser-sync', function() {
 gulp.task('css', function(){ 
     gulp.src(path.src.css)
     .pipe(sass(sassOptions).on('error', sass.logError))
-    .pipe(cssmin())
+    // .pipe(cssmin())
+    .pipe(autoprefixer({
+        browsers: ['last 5 versions'],
+        cascade: false
+    }))
     .pipe(gulp.dest('app/css'))
     .pipe(browserSync.reload({stream:true}));
 });
@@ -79,14 +96,6 @@ gulp.task('image', function () {
         .pipe(gulp.dest('app/img'))
         .pipe(browserSync.reload({stream: true}));
 });
-
-// gulp.task('build', [
-//     'html',
-//     'js',
-//     'css',
-//     'fonts',
-//     'image'
-// ]);
 
 gulp.task('build', ['clean', 'image', 'css', 'js', 'fonts', 'html'], function() {
 
