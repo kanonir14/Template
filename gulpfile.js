@@ -27,17 +27,6 @@ var gulp = require('gulp'),
     clean: './dist'
 };
 
- // sftp
-//  gulp.task('sftp', function () {
-//     return gulp.src('app/**/*')
-//     .pipe(sftp({
-//         host: 'host',
-//         user: 'user',
-//         pass: 'password',
-//         remotePath: '/home/kulonshopcom/www/kulonshop.com/test/makeup/2017/september/levis'
-//     }));
-// });
-
 // Скрипты проекта
 
 gulp.task('js', function() {
@@ -63,7 +52,7 @@ gulp.task('css', function(){
     .pipe(sass(sassOptions).on('error', sass.logError))
     // .pipe(cssmin())
     .pipe(autoprefixer({
-        browsers: ['last 5 versions'],
+        browsers: ['last 10 versions'],
         cascade: false
     }))
     .pipe(gulp.dest('app/css'))
