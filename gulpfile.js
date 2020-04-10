@@ -1,115 +1,152 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     concat = require('gulp-concat'),
-    imagemin = require('gulp-imagemin'),
-    pngquant = require('imagemin-pngquant'),
-    cssmin = require('gulp-minify-css'),
+    cleanCSS = require('gulp-clean-css'),
+    rename = require('gulp-rename'),
     browserSync = require('browser-sync'),
-    rimraf = require('rimraf'),
+    del = require('del'),
+    imagemin = require("gulp-imagemin"),
     autoprefixer = require('gulp-autoprefixer'),
-    sftp = require('gulp-sftp'),
-    uglify = require('gulp-uglify'),
-    sassOptions = {
-        errLogConsole: false,
-        outputStyle: 'expanded'
-    };
+    uglify = require('gulp-uglify');
+
+var sassOptions = {
+    errLogConsole: false,
+    outputStyle: 'expanded'
+};
 
  var path = {
 
-    src: { 
-        html: 'app/*.html', 
-        js: 'app/js/common.js',
-        css: 'app/css/scss/style.scss',
-        img: 'app/img/**/*.*', 
-        fonts: 'app/fonts/**/*.*'
+    styles: {
+        src: 'app/css/scss/**/*.scss', // попробовать прописать путь app/css/**/*.scss
+        src_css: 'app/css/',
+        dest: 'dist/css/'
     },
-
-    clean: './dist'
+    scripts: {
+        src: 'app/js/common.js', // попробовать прописать путь app/js/**/*.js
+        src_lib: 'app/libs/*.js',
+        dest: 'dist/js/',
+        dest_lib: 'dist/libs/'
+    },
+    html: {
+        src: 'app/index.html',
+        dest: 'dist/'
+    },
+    fonts: {
+        src: 'app/fonts/**/*.*',
+        dest: 'dist/fonts/'
+    },
+    images: {
+        src: 'app/img/**/*.*',
+        dest: 'dist/img/'
+    }
 };
 
-// Скрипты проекта
+gulp.task('browser-sync', function() { 
+    browserSync({
+        server: { 
+            baseDir: 'app' 
+        },
+        notify: false 
+    });
 
-gulp.task('js', function() {
-	gulp.src(path.src.js)
-	// .pipe(uglify())
-	.pipe(gulp.dest('app/js'))
-	.pipe(browserSync.reload({stream: true}));
+    gulp.watch(path.html.src).on('change', browserSync.reload);
 });
 
-gulp.task('browser-sync', function() {
-	browserSync({
-		server: {
-			baseDir: 'app'
-		},
-		notify: false
-	});
-});
+function clean() {
+    // return del(['app/css/*.css', '!app/css/style.css', '!app/css/scss', 'dist/css/*.css', '!dist/css/style.css']);
+    return del(['dist']);
+}
 
-
-
-gulp.task('css', function(){ 
-    gulp.src(path.src.css)
-    .pipe(sass(sassOptions).on('error', sass.logError))
-    // .pipe(cssmin())
-    .pipe(autoprefixer({
-        browsers: ['last 10 versions'],
-        cascade: false
-    }))
-    .pipe(gulp.dest('app/css'))
-    .pipe(browserSync.reload({stream:true}));
-});
-
-gulp.task('html', function(){ 
-    gulp.src(path.src.html)
-    .pipe(gulp.dest('app/'))
-    .pipe(browserSync.reload({stream:true}));
-});
-
-gulp.task('fonts', function() {
-    gulp.src(path.src.fonts)
-        .pipe(gulp.dest('app/fonts'))
-});
-
-gulp.task('clean', function (cb) {
-    rimraf(path.clean, cb);
-});
-
-gulp.task('image', function () {
-    gulp.src(path.src.img) 
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            use: [pngquant()],
-            interlaced: true
+// css
+function styles() {
+    return gulp.src(path.styles.src)
+        .pipe(sass(sassOptions)).on('error', sass.logError)
+        // .pipe(cleanCSS())
+        // .pipe(rename({
+        //     basename: 'style',
+        //     suffix: '.min'
+        // }))
+        .pipe(autoprefixer({
+            browsersList: ['last 5 versions'],
+            cascade: false
         }))
-        .pipe(gulp.dest('app/img'))
-        .pipe(browserSync.reload({stream: true}));
-});
+        .pipe(gulp.dest(path.styles.src_css))
+        .pipe(browserSync.stream());
 
-gulp.task('build', ['clean', 'image', 'css', 'js', 'fonts', 'html'], function() {
+}
 
-    var buildCss = gulp.src('app/css/*.css')
-                   .pipe(gulp.dest('dist/css'))
+// images
+function images() {
+    return gulp.src(path.images.src) 
+        .pipe(imagemin())
+        .pipe(gulp.dest(path.images.dest))
+        .pipe(browserSync.stream());
+}
 
-    var buildFonts = gulp.src('app/fonts/**/*')
-                    .pipe(gulp.dest('dist/fonts'))
+// fonts
+function fonts() {
+    return gulp.src(path.src.fonts)
+        .pipe(gulp.dest(path.fonts.dest));
+}
 
-    var buildJs = gulp.src('app/js/**/*')
-                  .pipe(gulp.dest('dist/js'))
+// html
+function html(){
+    return gulp.src(path.html.src)
+    .pipe(browserSync.reload({stream:true}));
+}
 
-    var buildImg = gulp.src('app/img/**/*')
-                  .pipe(gulp.dest('dist/img'));
+// js
+function scripts() {
+    return gulp.src(path.scripts.src)
+        .pipe(browserSync.stream())
+        // .pipe(gulp.dest(path.scripts.dest));
+}
 
-    var buildHtml = gulp.src('app/*.html')
-    			   .pipe(gulp.dest('dist'));
+// build
 
-});
+function buildProject() {
+    var build_css = gulp.src(path.styles.src_css)
+        .pipe(gulp.dest(path.styles.dest));
+
+    var build_html = gulp.src(path.html.src)
+        .pipe(gulp.dest(path.html.dest));
+
+    var build_js = gulp.src(path.scripts.src)
+        .pipe(gulp.dest(path.scripts.dest));
+
+    var build_img = images();
+
+    var build_fonts = gulp.src(path.fonts.src)
+        .pipe(gulp.dest(path.fonts.dest));
+
+    return build_css, build_html, build_js, build_fonts;
+}
+
+var build = gulp.series(clean, buildProject);
+
+// clean
+var clean = gulp.series(clean);
+
+// watch
+function watchFiles(){
+    gulp.watch(path.styles.src, styles);
+    gulp.watch(path.scripts.src, scripts);
+    gulp.watch(path.html.src, html);
+    gulp.watch(path.images.src, images);
+}
+
+var watch = gulp.parallel(watchFiles, ['browser-sync']);
 
 
-gulp.task('default', ['browser-sync'], function() {
-	gulp.watch('app/css/**/*.scss', ['css']);
-    gulp.watch('app/**/*.html', ['html']);
-    gulp.watch('app/js/**/*.js', ['js']);
-    gulp.watch('app/fonts/**/*', ['fonts']);
-});
+// exports
+exports.clean = clean;
+exports.styles = styles;
+exports.scripts = scripts;
+exports.html = html;
+exports.build = build;
+exports.images = images;
+
+// default start 
+exports.default = watch;
+
 
