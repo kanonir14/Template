@@ -1,0 +1,145 @@
+// icon
+i.icon-email{
+	display: inline-block;
+	width: 23px;
+	height: 16px;
+	margin-right: 5px;
+	background: url('../img/icon/icon-email.png');
+	background-size: contain;
+}
+
+i.icon-telegram{
+	display: inline-block;
+	position: relative;
+	top: 2px;
+	width: 22px;
+	height: 18px;
+	margin-right: 5px;
+	background: url('../img/icon/icon-telegram.png');
+	background-size: contain;
+}
+
+// Basket
+.basket{
+	min-width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	transition: all .2s ease-out;
+
+	&-link{
+		display: block;
+		position: relative;
+		width: 46px;
+		height: 46px;
+		line-height: 46px;
+		border-radius: 50%;
+		background: $color-orange;
+		transition: all .2s ease-out;
+
+		&:before{
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 18px;
+			height: 19px;
+			background: url('../img/icon/icon-basket.png') no-repeat center center / contain;
+			transform: translate(-50%, -50%);
+		}
+
+	}
+
+	&--count{
+		position: absolute;
+		left: 30px;
+		top: 0;
+		min-width: 15px;
+		height: 15px;
+		padding: 0 2px 0 3px;
+		font-size: 12px;
+		color: $color-orange;
+		line-height: 15px;
+		background: $color-white;
+		border-radius: 30px;
+		text-align: center;
+	}
+
+	&:hover{
+		box-shadow: 6px 6px 13px rgba(255, 136, 93, .57);
+	}
+
+}
+
+// btn
+.btn{
+	position: relative;
+	display: inline-block;
+	font-weight: 500;
+	text-decoration: none;
+	border-radius: 40px;
+	transition: all .2s ease-out;
+
+	&:hover{
+		text-decoration: none;
+	}
+
+	&-blue{
+		padding: 20px 28px;
+		background: $color-btn-blue;
+		font-size: 24px;
+		color: $banner-bg;
+		box-shadow: 7px 7px 16px rgba(60, 65, 94, .6);
+
+		&:hover{
+			box-shadow: 0 0 0 rgba(60, 65, 94, .6);
+		}
+
+	}
+
+	&-orange{
+		padding: 20px 28px;
+		background: $color-orange;
+		font-size: 24px;
+		color: $category-bg--hover;
+		box-shadow: 7px 7px 16px rgba(255, 136, 93, .6);
+
+		&:hover{
+			box-shadow: 0 0 0 rgba(255, 136, 93, .6);
+		}
+	}
+
+	&-card{
+		padding: 12px 12px 12px 35px;
+		color: $color-white;
+		font-size: 19px;
+		font-weight: 500;
+		background: $color-orange;
+		border-radius: 10px;
+		box-shadow: 0px 0px 0 rgba(255, 136, 93, .0);
+
+		&:before{
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 10px;
+			width: 18px;
+			height: 19px;
+			background: url('../img/icon/icon-basket.png') no-repeat center center / contain;
+			transform: translateY(-50%);
+		}
+
+		&:hover{
+			box-shadow: 7px 7px 16px rgba(255, 136, 93, .6);
+		}
+
+		&--xl{
+			padding: 15px 12px 15px 35px;
+			font-size: 24px;
+			box-shadow: 7px 7px 16px rgba(255, 136, 93, .6);
+
+			&:hover{
+				box-shadow: 0px 0px 0 rgba(255, 136, 93, .0);
+			}
+		}
+	}
+}
