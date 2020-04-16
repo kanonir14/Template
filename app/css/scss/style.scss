@@ -1,0 +1,29 @@
+@import "config/_var.scss";
+@import "config/_mixins.scss";
+@import "_normalize.scss";
+@import "_fonts.scss";
+@import "_components.scss";
+
+.flex{
+	@include display(flex);
+}
+.flex-center{
+	@include justify-content(center);
+}
+.flex-between{
+	@include justify-content(space-between);
+}
+.flex-items{
+	@include align-items(center);
+}
+.flex-column{
+	@include flex-direction(column);
+}
+.flex-wrap{
+	@include flex-wrap(wrap);
+}
+
+
+//      MEDIA
+
+@import "_media.scss";
