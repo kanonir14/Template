@@ -67,7 +67,7 @@ function styles() {
         //     suffix: '.min'
         // }))
         .pipe(autoprefixer({
-            browsersList: ['last 5 versions'],
+            overrideBrowserslist: ['last 5 versions'],
             cascade: false
         }))
         .pipe(gulp.dest(path.styles.src_css))

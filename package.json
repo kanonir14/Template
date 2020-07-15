@@ -4,7 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "update-notifier": "^4.1.0"
   },
   "devDependencies": {
     "browser-sync": "^2.26.7",
